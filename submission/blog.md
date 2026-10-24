@@ -32,7 +32,7 @@ We wrote two specs in Kiro before building: one for the data pipeline and one fo
 
 Steering mattered more than I expected. We put the API quirks in `data.md`, the thresholds and the "no scary countdowns" rule in `product.md`, and our stack rules in `tech.md`. After that we stopped repeating ourselves. When we found the chloride substring issue, we fixed it once in steering and the later tasks just handled it.
 
-The pipeline went through the Kiro IDE task by task. The frontend went through Kiro Crew with Claude Code over ACP, which was better for the many small UI passes the design needed.
+The pipeline and the first version of the site went through Kiro spec mode on autopilot, task by task. The visual redesign after that went through Claude Code, working from the same specs and steering, which was better for the many small UI passes the design needed.
 
 ## What's next
 
