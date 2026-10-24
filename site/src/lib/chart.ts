@@ -169,6 +169,6 @@ export function chartLabel(series: readonly PlotSeries[]): string {
 /** Stroke color and dash pattern shared by charts and legends. The three dash patterns all differ. */
 export const STROKE: Record<Chemical | 'guideline', { color: string; dash: string | null }> = {
 	sodium: { color: '#ffffff', dash: null },
-	chloride: { color: '#7dd3fc', dash: '2 3' },
-	guideline: { color: '#f87171', dash: '6 4' }
+	chloride: { color: '#8fb3c9', dash: '2 3' },
+	guideline: { color: '#f2a93b', dash: '6 4' }
 };

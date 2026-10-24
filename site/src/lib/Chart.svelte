@@ -1,9 +1,11 @@
 <!--
 	Every chart in the site. home and detail fill their container's width and draw axes;
 	spark is a fixed 96 x 24 with only the lines, the guideline, and one-sample markers.
+	home draws its sodium line and labels the latest value; put it inside a reveal.
 -->
 <script lang="ts">
 	import { chartLabel, plot, STROKE, type Frame, type Plot, type PlotSeries } from '#lib/chart.js';
+	import { mgl } from '#lib/format.js';
 
 	let { series, variant }: { series: PlotSeries[]; variant: 'home' | 'detail' | 'spark' } = $props();
 
@@ -23,6 +25,7 @@
 	);
 	const p = $derived(plot(series, frame, MIN_LABEL_GAP));
 	const label = $derived(chartLabel(series));
+	const latest = $derived(mgl(series.find((s) => s.chemical === 'sodium')?.samples.at(-1)?.value ?? null));
 </script>
 
 {#snippet chart(p: Plot)}
@@ -40,9 +43,9 @@
 					.map((t) => `M ${t.pos} ${p.bottom} v 4`)
 					.join(' ')}"
 				fill="none"
-				stroke="#a3a3a3"
+				stroke="#3a3122"
 			/>
-			<g fill="#a3a3a3">
+			<g fill="#9a9a9a">
 				<text x={p.left} y={p.top - 8}>mg/L</text>
 				{#each p.yTicks as t}
 					<text x={p.left - 6} y={t.pos} text-anchor="end" dominant-baseline="middle">{t.label}</text>
@@ -75,16 +78,37 @@
 					fill="none"
 					stroke={stroke.color}
 					stroke-dasharray={stroke.dash}
-					stroke-width="1.5"
+					stroke-width={variant === 'home' ? 2 : 1.5}
 					stroke-linejoin="round"
 					pathLength={draw ? 1 : undefined}
 					class={draw ? 'draw' : undefined}
+					style:--dur={draw ? '1.8s' : undefined}
 				/>
 			{/if}
 			{#if !spark || s.points.length === 1}
 				{#each s.points as pt}
-					<circle cx={pt.x} cy={pt.y} r="2.5" fill={stroke.color} />
+					<circle
+						cx={pt.x}
+						cy={pt.y}
+						r="2.5"
+						fill={stroke.color}
+						class={draw ? 'fade' : undefined}
+						style:--delay={draw ? '1.5s' : undefined}
+					/>
 				{/each}
+			{/if}
+			{#if draw && s.points.length > 0}
+				{@const end = s.points[s.points.length - 1]}
+				<text
+					x={end.x + 8}
+					y={end.y}
+					dominant-baseline="middle"
+					fill="#ffd27a"
+					font-size="15"
+					font-weight="800"
+					class="fade"
+					style:--delay="1.5s">{latest}</text
+				>
 			{/if}
 		{/each}
 	</svg>
@@ -102,19 +126,3 @@
 	</div>
 {/if}
 
-<style>
-	@media (prefers-reduced-motion: no-preference) {
-		.draw {
-			stroke-dasharray: 1;
-			animation: draw 1.5s linear both;
-		}
-	}
-	@keyframes draw {
-		from {
-			stroke-dashoffset: 1;
-		}
-		to {
-			stroke-dashoffset: 0;
-		}
-	}
-</style>

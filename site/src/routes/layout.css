@@ -1,16 +1,79 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/archivo/wdth.css';
 
 @theme {
-	--color-dim: #a3a3a3;
+	--font-sans: 'Archivo Variable', sans-serif;
+	--color-dim: #9a9a9a;
+	--color-soft: #d6d6d6;
+	--color-line: #3a3122;
+	--color-amber: #f2a93b;
+	--color-hot: #ffd27a;
+	--color-ember: #2a2418;
 }
 
 html {
 	background: #000;
 	color: #fff;
 	color-scheme: dark;
+	font-size: 16px;
+	line-height: 1.55;
 }
 
 :focus-visible {
-	outline: 2px solid #fff;
+	outline: 2px solid var(--color-hot);
 	outline-offset: 2px;
+}
+
+/* Headlines: widest, heaviest cut. */
+@utility display {
+	font-weight: 900;
+	font-stretch: 125%;
+	line-height: 0.92;
+	letter-spacing: -0.04em;
+}
+
+/* Section and card titles. */
+@utility title {
+	font-weight: 800;
+	font-stretch: 112%;
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+}
+
+/* Big figures: condensed so long numbers stay narrow. */
+@utility figure {
+	font-weight: 800;
+	font-stretch: 62%;
+	line-height: 1;
+	letter-spacing: -0.02em;
+	font-variant-numeric: tabular-nums;
+}
+
+/*
+	One-shot reveals, driven by the reveal attachment in motion.ts. `.armed` is the start state,
+	`.armed.in` the end state. Draw targets need pathLength="1". --delay staggers parts inside one
+	illustration, --base staggers whole illustrations.
+*/
+.armed .draw {
+	stroke-dasharray: 1;
+	stroke-dashoffset: 1;
+}
+.armed .fade {
+	opacity: 0;
+}
+.armed .wipe {
+	clip-path: inset(0 100% 0 0);
+}
+.armed.in .draw {
+	stroke-dashoffset: 0;
+	transition: stroke-dashoffset var(--dur, 1.2s) cubic-bezier(0.3, 0, 0.2, 1)
+		calc(var(--base, 0s) + var(--delay, 0s));
+}
+.armed.in .fade {
+	opacity: 1;
+	transition: opacity 0.5s calc(var(--base, 0s) + var(--delay, 0s));
+}
+.armed.in .wipe {
+	clip-path: inset(0);
+	transition: clip-path 1.2s cubic-bezier(0.3, 0, 0.2, 1) calc(var(--base, 0s) + var(--delay, 0s));
 }
