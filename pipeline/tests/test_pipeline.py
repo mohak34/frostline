@@ -1,5 +1,6 @@
 from datetime import date
 
+from backtest import run
 from clean import RawItem, Sample, to_sample
 from trends import analyze, watch_flag
 
@@ -39,11 +40,11 @@ def test_to_sample_drops_unparseable_date() -> None:
     assert to_sample(raw_item(collected="not-a-date")) is None
 
 
-def samples(points: list[tuple[date, float]]) -> list[Sample]:
+def samples(points: list[tuple[date, float]], name: str = "WELL #1") -> list[Sample]:
     return [
         Sample(
-            well="4239000|WELL #1",
-            location_name="WELL #1",
+            well=f"4239000|{name}",
+            location_name=name,
             chemical="SODIUM",
             date=d,
             value=v,
@@ -56,8 +57,10 @@ def samples(points: list[tuple[date, float]]) -> list[Sample]:
     ]
 
 
-def yearly(values: list[float]) -> list[Sample]:
-    return samples([(date(2010 + t, 6, 1), v) for t, v in enumerate(values)])
+def yearly(
+    values: list[float], start: int = 2010, name: str = "WELL #1"
+) -> list[Sample]:
+    return samples([(date(start + t, 6, 1), v) for t, v in enumerate(values)], name)
 
 
 def test_linear_increase_is_rising() -> None:
@@ -83,3 +86,15 @@ def test_watch_when_below_guideline_but_projected_over() -> None:
 
 def test_no_watch_when_latest_already_over_guideline() -> None:
     assert not watch_flag(analyze(yearly([2 * t + 10 for t in range(10)])))
+
+
+def test_backtest_counts() -> None:
+    # Yearly 2009-2021: train is 2009-2015, test is 2020-2021.
+    caught = yearly([10 + t for t in range(13)], 2009, "CAUGHT")
+    quiet = yearly([10] * 13, 2009, "QUIET")
+    short = yearly([10] * 9, 2013, "SHORT")  # 3 training samples
+    out = run(caught + quiet + short)
+    assert out["wells_tested"] == 2
+    assert out["crossed"] == 1
+    assert out["caught"] == 1
+    assert out["false_alarms"] == 0
