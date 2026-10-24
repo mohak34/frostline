@@ -1,0 +1,350 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Create the branch and scaffold `site/`": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872504826
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872507867
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872667837
+      }
+    ],
+    "1.2 Add the theme, layout, and error page": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872504914
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872668350
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872809179
+      }
+    ],
+    "2.1 Write `types.ts`, `format.ts`, and `format.test.ts`": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872504960
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872809921
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872929833
+      }
+    ],
+    "2.2 Write `search.ts`, `massdot.ts`, and their tests": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872504983
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872810691
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872930654
+      }
+    ],
+    "2.3 Write `stats.ts` and `accuracy.ts`": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872505004
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872931407
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792873030141
+      }
+    ],
+    "3.1 Write `chart.ts` and `chart.test.ts`": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872505030
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792873030161
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792873326324
+      }
+    ],
+    "3.2 Write `Chart.svelte`": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872505055
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792873327775
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792873856689
+      }
+    ],
+    "4.1 Write `src/lib/server/data.ts`": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872505075
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792873031045
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792873327065
+      }
+    ],
+    "4.2 Write the three route loads": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872505096
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792873856709
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792874190324
+      }
+    ],
+    "5.1 Write `TownSearch.svelte`": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872505122
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792874190742
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792874734575
+      }
+    ],
+    "5.2 Write the Home_Page": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872505165
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792874735516
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792874901236
+      }
+    ],
+    "6.1 Write `WellRow.svelte`": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872505190
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792874199582
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792874734601
+      }
+    ],
+    "6.2 Write `Checker.svelte`": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872505226
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792874199603
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792874734841
+      }
+    ],
+    "6.3 Complete the Town_Page": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872505248
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792874901656
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792875079620
+      }
+    ],
+    "7.1 Complete the Accuracy_Page": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872505269
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792875080080
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792875309533
+      }
+    ],
+    "8.1 Run the design's build checks in `site/`": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872505290
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792875310011
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792875489719
+      }
+    ],
+    "8.2 Run the negative builds and hand off": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872505311
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792875316829
+      },
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792875489743
+      }
+    ],
+    "1. Scaffold the site on a new branch": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792872809204
+      }
+    ],
+    "2. Add data types and pure logic modules": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792873030183
+      }
+    ],
+    "3. Build the SVG chart": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792873856730
+      }
+    ],
+    "4. Read the data files at build time": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792874190350
+      }
+    ],
+    "5. Build the home page": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792874901259
+      }
+    ],
+    "6. Build the town page": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792875079660
+      }
+    ],
+    "7. Build the accuracy page": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792875309564
+      }
+    ],
+    "8. Final checkpoint - verify the build": [
+      {
+        "executionId": "a49f2dcb-cc24-45df-8daf-fe00aeb7479a",
+        "chatSessionId": "sess_3a05b278-af4f-435a-aec1-64e2cede3106",
+        "timestamp": 1792875489769
+      }
+    ]
+  }
+}
