@@ -1,0 +1,14 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Run pipeline tests on py save",
+      "trigger": "PostFileSave",
+      "matcher": "pipeline/.*\\.py$",
+      "action": {
+        "type": "command",
+        "command": "cd pipeline && uv run pytest"
+      }
+    }
+  ]
+}

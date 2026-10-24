@@ -1,0 +1,14 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Run site tests on lib save",
+      "trigger": "PostFileSave",
+      "matcher": "site/src/lib/",
+      "action": {
+        "type": "command",
+        "command": "cd site && bun run test"
+      }
+    }
+  ]
+}

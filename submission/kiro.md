@@ -6,7 +6,7 @@ Kiro IDE did the core build. One spec-mode session with autopilot on (Claude Opu
 
 After Kiro had the site working, we did the visual redesign (town map, time-lapse, page transitions, checker gauges) with Claude Code, feeding it the same `.kiro/` specs and steering so it kept to the data contracts and product rules. Kiro for spec-driven build-out, a second agent for fast visual iteration on top.
 
-We did not use Kiro CLI, Web or Crew on this project.
+We used Kiro CLI at the end, headless (`kiro-cli chat --no-interactive`), to add agent hooks and property-based tests to the finished code. We did not use Kiro Web or Crew on this project.
 
 ## Specs
 
@@ -33,7 +33,12 @@ The one that mattered most was `data.md`. The chloride filter in the API is a su
 
 ## Agent hooks
 
-We did not use hooks. Lint, format, type check, and tests were run as explicit checkpoint tasks in the task lists instead.
+Two hooks in `.kiro/hooks/`, written by Kiro CLI at the end of the build:
+
+- `site-test.json`: on save of anything in `site/src/lib/`, run the vitest suite.
+- `pipeline-test.json`: on save of a pipeline `.py` file, run pytest.
+
+During the main build we ran lint, types and tests as explicit checkpoint tasks in the spec task lists instead. The hooks make that automatic for whoever works on the code next.
 
 ## MCP
 
@@ -41,7 +46,14 @@ We did not connect MCP servers for this build. We did not need one: the only ext
 
 ## Property-based testing
 
-We did not use PBT. `pbtResults` is empty in both specs. The tests are example tests: 10 in the pipeline (cleaning, paging, trend labels, the watch flag, backtest counts) and 28 in the site (MassDOT checker, formatting, search, chart, stats). The trend and checker rules would be good PBT targets next, for example "a series that only goes up is never labeled falling".
+The spec runs used example tests only (`pbtResults` is empty in both specs). At the end we had Kiro CLI read the rules and add property tests for the two places where a wrong answer would mislead someone:
+
+- `site/src/lib/massdot.property.test.ts` (fast-check), 7 properties on the MassDOT checker: chloride at or over 250 always triggers, no diet never adds a sodium trigger, raising sodium never removes a trigger, and the trigger keys match the diet.
+- `pipeline/tests/test_trends_property.py` (hypothesis), 6 properties on the trend rule: a strictly increasing series is never "falling", a constant series is never rising or falling, too few samples or too short a span is always "insufficient", and a slope exists exactly when there is a trend.
+
+They passed on the current code. The one thing fast-check caught was in the test setup itself: v4 needs float bounds that are exact 32-bit floats, so threshold values had to go through `Math.fround`.
+
+All tests: 37 in the site, 16 in the pipeline.
 
 ## Powers
 
