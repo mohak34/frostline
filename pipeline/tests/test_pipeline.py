@@ -1,6 +1,7 @@
 from datetime import date
 
-from clean import RawItem, to_sample
+from clean import RawItem, Sample, to_sample
+from trends import analyze, watch_flag
 
 
 def raw_item(
@@ -36,3 +37,49 @@ def test_to_sample_drops_non_numeric_result() -> None:
 
 def test_to_sample_drops_unparseable_date() -> None:
     assert to_sample(raw_item(collected="not-a-date")) is None
+
+
+def samples(points: list[tuple[date, float]]) -> list[Sample]:
+    return [
+        Sample(
+            well="4239000|WELL #1",
+            location_name="WELL #1",
+            chemical="SODIUM",
+            date=d,
+            value=v,
+            town="PLYMOUTH",
+            pws_name="PLYMOUTH WATER DIVISION",
+            cls="COM",
+            raw_or_finished="R",
+        )
+        for d, v in points
+    ]
+
+
+def yearly(values: list[float]) -> list[Sample]:
+    return samples([(date(2010 + t, 6, 1), v) for t, v in enumerate(values)])
+
+
+def test_linear_increase_is_rising() -> None:
+    series = analyze(yearly([2 * t + 10 for t in range(10)]))
+    assert series.trend == "rising"
+    assert series.slope is not None and abs(series.slope - 2) < 0.01
+
+
+def test_alternating_values_are_flat() -> None:
+    assert analyze(yearly([10, 12] * 5)).trend == "flat"
+
+
+def test_three_samples_are_insufficient() -> None:
+    series = analyze(yearly([10, 15, 20]))
+    assert series.trend == "insufficient"
+    assert series.slope is None
+
+
+def test_watch_when_below_guideline_but_projected_over() -> None:
+    # Latest 19, median of last 3 is 18, slope 1/yr: 18 + 5 = 23 > 20.
+    assert watch_flag(analyze(yearly([t + 10 for t in range(10)])))
+
+
+def test_no_watch_when_latest_already_over_guideline() -> None:
+    assert not watch_flag(analyze(yearly([2 * t + 10 for t in range(10)])))
