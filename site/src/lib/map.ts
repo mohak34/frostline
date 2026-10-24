@@ -1,4 +1,5 @@
 import { asset } from '$app/paths';
+import type { Town } from '#lib/types.js';
 
 /** One static/data/map.json town, written by pipeline/map.py. */
 export interface MapTown {
@@ -12,19 +13,28 @@ export interface MapData {
 	towns: MapTown[];
 }
 
-let cached: Promise<MapData> | undefined;
+const cache = new Map<string, Promise<unknown>>();
+
+function fetchOnce<T>(file: 'data/map.json' | 'data/towns.json'): Promise<T> {
+	let p = cache.get(file);
+	if (!p) {
+		p = fetch(asset(file)).then((r) => {
+			if (!r.ok) throw new Error(`${file}: HTTP ${r.status}`);
+			return r.json();
+		});
+		cache.set(file, p);
+	}
+	return p as Promise<T>;
+}
 
 /**
  * Town borders, fetched in the browser once per visit. Kept out of page data so the ~90 KB of
  * paths are not inlined into every prerendered page.
  */
-export function loadMap(): Promise<MapData> {
-	cached ??= fetch(asset('data/map.json')).then((r) => {
-		if (!r.ok) throw new Error(`map.json: HTTP ${r.status}`);
-		return r.json() as Promise<MapData>;
-	});
-	return cached;
-}
+export const loadMap = (): Promise<MapData> => fetchOnce('data/map.json');
+
+/** towns.json in the browser, for pages that color the map but do not load every town. */
+export const loadTowns = (): Promise<Town[]> => fetchOnce('data/towns.json');
 
 // Dark to light amber. LEGEND is the same ramp as a CSS gradient.
 const AMBER = [

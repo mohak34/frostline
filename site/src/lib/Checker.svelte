@@ -27,31 +27,31 @@
 	{#each FIELDS as f (f.key)}
 		{@const invalid = amounts[f.key] === 'invalid'}
 		<div class="flex flex-col gap-1">
-			<label for={f.id}>{f.label}</label>
+			<label for={f.id} class="text-sm text-dim">{f.label}</label>
 			<input
 				id={f.id}
 				type="number"
 				step="any"
 				min="0"
 				inputmode="decimal"
-				class="w-40 border border-dim bg-black px-2 py-1 tabular-nums"
+				class="w-40 border border-line bg-black px-3 py-2 tabular-nums focus:border-amber focus:outline-none aria-invalid:border-hot"
 				aria-invalid={invalid ? 'true' : undefined}
 				aria-describedby={invalid ? `${f.id}-error` : undefined}
 				oninput={(e) =>
 					(amounts[f.key] = parseAmount(e.currentTarget.value, e.currentTarget.validity.badInput))}
 			/>
 			{#if invalid}
-				<p id="{f.id}-error" class="text-sm">Enter a number 0 or greater</p>
+				<p id="{f.id}-error" class="text-sm text-hot">Enter a number 0 or greater</p>
 			{/if}
 		</div>
 	{/each}
 	<div class="flex flex-col gap-1">
-		<label for="checker-diet">Doctor-ordered sodium diet</label>
-		<select id="checker-diet" class="w-48 border border-dim bg-black px-2 py-1" bind:value={diet}>
+		<label for="checker-diet" class="text-sm text-dim">Doctor-ordered sodium diet</label>
+		<select id="checker-diet" class="w-48 border border-line bg-black px-3 py-2 focus:border-amber focus:outline-none" bind:value={diet}>
 			{#each DIETS as d (d.value)}
 				<option value={d.value}>{d.label}</option>
 			{/each}
 		</select>
 	</div>
 </div>
-<p role="status" class="mt-3">{resultText(result)}</p>
+<p role="status" class="mt-4 font-semibold">{resultText(result)}</p>

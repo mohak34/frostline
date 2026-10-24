@@ -24,8 +24,8 @@
 	bubbles here once, so every activation toggles exactly once.
 -->
 <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_noninteractive_element_interactions -->
-<tr class="cursor-pointer border-b border-[#404040]" onclick={() => (open = !open)}>
-	<td class="py-1 pr-3">
+<tr class="cursor-pointer border-b border-line hover:bg-[#0d0a05]" onclick={() => (open = !open)}>
+	<td class="py-2 pr-4">
 		<button
 			type="button"
 			class="flex cursor-pointer items-center gap-1 text-left"
@@ -34,7 +34,7 @@
 		>
 			<svg
 				aria-hidden="true"
-				class={['shrink-0', open && 'rotate-90']}
+				class={['shrink-0 text-amber transition-transform', open && 'rotate-90']}
 				viewBox="0 -960 960 960"
 				width="16"
 				height="16"
@@ -45,17 +45,19 @@
 			{well.name}
 		</button>
 	</td>
-	<td class="py-1 pr-3">{well.system}</td>
-	<td class="py-1 pr-3">{well.class}</td>
-	<td class="py-1 pr-3">{mgl(well.sodium.latest)}</td>
-	<td class="py-1 pr-3">{trendLabel(well.sodium.trend)}</td>
-	<td class="py-1 pr-3">{well.sodium.watch ? 'watch' : ''}</td>
-	<td class="py-1">
+	<td class="py-2 pr-4">{well.system}</td>
+	<td class="py-2 pr-4">{well.class}</td>
+	<td class="py-2 pr-4">{mgl(well.sodium.latest)}</td>
+	<td class={['py-2 pr-4', well.sodium.trend === 'rising' && 'font-semibold text-amber']}>
+		{trendLabel(well.sodium.trend)}
+	</td>
+	<td class="py-2 pr-4 font-semibold text-hot">{well.sodium.watch ? 'watch' : ''}</td>
+	<td class="py-2">
 		<Chart variant="spark" series={[{ chemical: 'sodium', samples: well.sodium.samples }]} />
 	</td>
 </tr>
-<tr id={detailId} class="border-b border-[#404040]" hidden={!open}>
-	<td colspan="7" class="py-2">
+<tr id={detailId} class="border-b border-line" hidden={!open}>
+	<td colspan="7" class="py-4">
 		{#if open}
 			<Chart
 				variant="detail"

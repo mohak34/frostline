@@ -30,7 +30,7 @@
 		{ key: 'pct_rising', label: 'Wells rising', max: 70 },
 		{ key: 'pct_over_20', label: 'Wells over 20 mg/L', max: 100 }
 	] as const;
-	let measure = $state<(typeof MEASURES)[number]>(MEASURES[0]);
+	let measure = $state.raw<(typeof MEASURES)[number]>(MEASURES[0]);
 	let picked = $state<Town | null>(null);
 	let hovered = $state<Town | null>(null);
 	const shown = $derived(hovered ?? picked ?? bySlug.get('plymouth') ?? null);
