@@ -14,6 +14,11 @@ export function parseAmount(raw: string, badInput: boolean): number | null | 'in
 	return Number.isFinite(n) && n >= 0 ? n : 'invalid';
 }
 
+/** Sodium line (mg/L) for each doctor-ordered diet; sodium must go over it. */
+export const SODIUM_LINE: Record<Exclude<Diet, 'none'>, number> = { under1000: 20, under2000: 40 };
+/** Chloride line (mg/L) for any diet; chloride at or over it meets the trigger. */
+export const CHLORIDE_LINE = 250;
+
 export type Trigger = 'chloride' | 'sodium1000' | 'sodium2000';
 type Input = 'sodium' | 'chloride';
 export type Result =
@@ -24,9 +29,9 @@ export type Result =
 /** Diet `none` never reads sodium. A met trigger wins over missing inputs. */
 export function evaluate(sodium: number | null, chloride: number | null, diet: Diet): Result {
 	const triggers: Trigger[] = [];
-	if (chloride !== null && chloride >= 250) triggers.push('chloride');
-	if (diet === 'under1000' && sodium !== null && sodium > 20) triggers.push('sodium1000');
-	if (diet === 'under2000' && sodium !== null && sodium > 40) triggers.push('sodium2000');
+	if (chloride !== null && chloride >= CHLORIDE_LINE) triggers.push('chloride');
+	if (diet === 'under1000' && sodium !== null && sodium > SODIUM_LINE.under1000) triggers.push('sodium1000');
+	if (diet === 'under2000' && sodium !== null && sodium > SODIUM_LINE.under2000) triggers.push('sodium2000');
 	if (triggers.length > 0) return { kind: 'met', triggers };
 
 	const inputs: Input[] = [];
@@ -50,4 +55,27 @@ export function resultText(result: Result): string {
 		case 'missing':
 			return `Enter ${result.inputs.map((i) => `latest ${i}`).join(' and ')}.`;
 	}
+}
+
+/** One plain sentence per known amount, saying which side of its line it sits. */
+export function reasonText(sodium: number | null, chloride: number | null, diet: Diet): string {
+	const parts: string[] = [];
+	if (diet === 'none') {
+		parts.push('Sodium only counts with a doctor-ordered diet.');
+	} else if (sodium !== null) {
+		const line = SODIUM_LINE[diet];
+		parts.push(
+			sodium > line
+				? `Sodium is ${sodium}, over the ${line} mg/L line for your diet.`
+				: `Sodium is ${sodium}; for your diet it must go over ${line} mg/L to count.`
+		);
+	}
+	if (chloride !== null) {
+		parts.push(
+			chloride >= CHLORIDE_LINE
+				? `Chloride is ${chloride}, at or over the ${CHLORIDE_LINE} mg/L line.`
+				: `Chloride is ${chloride}, under the ${CHLORIDE_LINE} mg/L line.`
+		);
+	}
+	return parts.join(' ');
 }

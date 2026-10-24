@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { evaluate, resultText } from '#lib/massdot.js';
+import { evaluate, reasonText, resultText } from '#lib/massdot.js';
 
 describe('evaluate', () => {
 	it('meets the chloride trigger at 250 mg/L', () => {
@@ -46,5 +46,24 @@ describe('resultText', () => {
 		expect(resultText({ kind: 'missing', inputs: ['sodium', 'chloride'] })).toBe(
 			'Enter latest sodium and latest chloride.'
 		);
+	});
+});
+
+describe('reasonText', () => {
+	it('places each amount against its line', () => {
+		expect(reasonText(40, 50.6, 'under2000')).toBe(
+			'Sodium is 40; for your diet it must go over 40 mg/L to count. Chloride is 50.6, under the 250 mg/L line.'
+		);
+		expect(reasonText(40, 250, 'under1000')).toBe(
+			'Sodium is 40, over the 20 mg/L line for your diet. Chloride is 250, at or over the 250 mg/L line.'
+		);
+	});
+
+	it('explains that sodium is ignored without a diet', () => {
+		expect(reasonText(98, null, 'none')).toBe('Sodium only counts with a doctor-ordered diet.');
+	});
+
+	it('is empty when nothing is known and a diet is set', () => {
+		expect(reasonText(null, null, 'under1000')).toBe('');
 	});
 });
