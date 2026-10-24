@@ -6,7 +6,7 @@
 <script lang="ts">
 	import Chart from '#lib/Chart.svelte';
 	import { STROKE, type Chemical } from '#lib/chart.js';
-	import { mgl, trendLabel } from '#lib/format.js';
+	import { mgl, trendLabel, WELL_TYPE } from '#lib/format.js';
 	import { onView } from '#lib/motion.js';
 	import type { Series, Well } from '#lib/types.js';
 
@@ -56,12 +56,14 @@
 		</button>
 	</td>
 	<td class="py-2 pr-4">{well.system}</td>
-	<td class="py-2 pr-4">{well.class}</td>
+	<td class="py-2 pr-4 whitespace-nowrap">{WELL_TYPE[well.class]}</td>
 	<td class="py-2 pr-4">{mgl(well.sodium.latest)}</td>
 	<td class={['py-2 pr-4', well.sodium.trend === 'rising' && 'font-semibold text-amber']}>
 		{trendLabel(well.sodium.trend)}
 	</td>
-	<td class="py-2 pr-4 font-semibold text-hot">{well.sodium.watch ? 'watch' : ''}</td>
+	<td class="py-2 pr-4 font-semibold whitespace-nowrap text-hot">
+		{well.sodium.watch ? 'heading over 20' : ''}
+	</td>
 	<td class="py-2">
 		<Chart variant="spark" series={[{ chemical: 'sodium', samples: well.sodium.samples }]} />
 	</td>

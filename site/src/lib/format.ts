@@ -1,4 +1,4 @@
-import type { Trend } from '#lib/types.js';
+import type { Trend, WellClass } from '#lib/types.js';
 
 export const MISSING = 'n/a';
 
@@ -55,3 +55,10 @@ export function percentOf(part: number, whole: number): number | null {
 export function trendLabel(trend: Trend): string {
 	return trend === 'insufficient' ? 'not enough data' : trend;
 }
+
+/** Plain name for a water system class, shown in the Well_Table. */
+export const WELL_TYPE: Record<WellClass, string> = {
+	COM: 'Homes',
+	NTNC: 'School or workplace',
+	NC: 'Visitor site'
+};
