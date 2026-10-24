@@ -17,7 +17,7 @@
 	const NAV = [
 		{ href: `${home}#how`, label: 'How it works' },
 		{ href: resolve('/accuracy'), label: 'Accuracy' },
-		{ href: 'https://hackachusetts2026.vercel.app/#/climate', label: 'Harbor Pulse' }
+		{ href: 'https://hackachusetts2026.streamlit.app/', label: 'Harbor Pulse' }
 	];
 	// The home page has its own big search, so the header one shows everywhere else.
 	const search = $derived(page.route.id !== '/');
