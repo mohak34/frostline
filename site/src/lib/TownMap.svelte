@@ -1,7 +1,8 @@
 <!--
 	Massachusetts town map. The parent colors each town through fill(slug), gets clicks by slug,
 	and fills the hover tooltip through tip(slug). Towns are not focusable; the town search is the
-	keyboard route. Setting zoom glides the view onto that town.
+	keyboard route. Setting zoom glides the view onto that town and names the map for the page
+	view transition, so keep one zoomed map per page.
 -->
 <script lang="ts">
 	import { bbox, loadMap, type MapData } from '#lib/map.js';
@@ -74,6 +75,7 @@
 <!-- svelte-ignore a11y_no_static_element_interactions, a11y_click_events_have_key_events -->
 <div
 	class="relative aspect-[1000/623]"
+	style:view-transition-name={zoom ? 'town-map' : undefined}
 	{onpointermove}
 	onpointerleave={() => (hovered = null)}
 	onclick={(e) => {

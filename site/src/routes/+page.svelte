@@ -31,7 +31,7 @@
 		const go = () => goto(resolve('/town/[slug]', { slug: t.slug }));
 		if (prefersReducedMotion.current) return void go();
 		zoom = t.slug;
-		setTimeout(go, 1300);
+		setTimeout(go, 1100);
 	}
 
 	const KICKERS = [

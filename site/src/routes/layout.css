@@ -91,3 +91,13 @@ html {
 		margin: 0;
 	}
 }
+
+/* Page changes from onNavigate in +layout.svelte: a short cross-fade, and the zoomed map glides. */
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 0.35s;
+}
+::view-transition-group(town-map) {
+	animation-duration: 0.6s;
+	animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1);
+}

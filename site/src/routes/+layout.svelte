@@ -1,6 +1,6 @@
 <script lang="ts">
 	import './layout.css';
-	import { goto } from '$app/navigation';
+	import { goto, onNavigate } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import Icon from '#lib/Icon.svelte';
@@ -8,6 +8,7 @@
 	import favicon from '#lib/assets/favicon.svg';
 	import { everyTown, loadMap, loadTowns } from '#lib/map.js';
 	import type { Town } from '#lib/types.js';
+	import { prefersReducedMotion } from 'svelte/motion';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
@@ -19,6 +20,18 @@
 	];
 	// The home page has its own big search, so the header one shows everywhere else.
 	const search = $derived(page.route.id !== '/');
+
+	// Page changes cross-fade, and a zoomed map morphs into the next page's map (see layout.css).
+	onNavigate((nav) => {
+		if (!document.startViewTransition || prefersReducedMotion.current) return;
+		if (nav.from?.url.pathname === nav.to?.url.pathname) return;
+		return new Promise((done) => {
+			document.startViewTransition(async () => {
+				done();
+				await nav.complete;
+			});
+		});
+	});
 
 	let towns = $state.raw<Town[]>([]);
 	$effect(() => {
