@@ -16,7 +16,7 @@ https://eeaonline.eea.state.ma.us/EEA/DataLake/V1.0/DataLakeAPI/drinkingWater?Ch
 ## Chemicals
 
 - `SODIUM`: ~37k numeric results.
-- `CHLORIDE`: ~62k.
+- `CHLORIDE`: ~11.7k numeric; the filter is a substring match and also returns other chlorides, which clean.py drops.
 
 ## Item fields used
 
