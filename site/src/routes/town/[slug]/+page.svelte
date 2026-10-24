@@ -53,7 +53,7 @@
 </script>
 
 <svelte:head>
-	<title>{name} | Winter Water Watch</title>
+	<title>{name} | Frostline</title>
 </svelte:head>
 
 <div class="grid items-center gap-10 pt-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">

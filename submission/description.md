@@ -1,10 +1,10 @@
-# Winter Water Watch
+# Frostline
 
 Track: Climate Tech
 
 Massachusetts puts a lot of salt on its roads every winter. Some of it ends up in the ground, and some of that ends up in the public wells people drink from. The data on whether your town's wells are getting saltier exists, it's just buried.
 
-Winter Water Watch pulls every sodium and chloride test MassDEP has published for public water systems (about 37k sodium and 11.7k chloride results, via the EEA Data Lake API) and turns them into a per-well trend you can actually read.
+Frostline pulls every sodium and chloride test MassDEP has published for public water systems (about 37k sodium and 11.7k chloride results, via the EEA Data Lake API) and turns them into a per-well trend you can actually read.
 
 What it does:
 

@@ -37,7 +37,7 @@
 </script>
 
 <svelte:head>
-	<title>Accuracy | Winter Water Watch</title>
+	<title>Accuracy | Frostline</title>
 </svelte:head>
 
 <h1 class="display max-w-[14ch] text-[clamp(40px,6vw,96px)]">We checked it against the future.</h1>

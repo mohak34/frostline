@@ -11,7 +11,7 @@
 </script>
 
 <svelte:head>
-	<title>{message} | Winter Water Watch</title>
+	<title>{message} | Frostline</title>
 </svelte:head>
 
 <div class="grid items-center gap-10 py-10 md:grid-cols-[minmax(0,1fr)_280px]">

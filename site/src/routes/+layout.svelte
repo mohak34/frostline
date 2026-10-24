@@ -48,7 +48,7 @@
 	<div class="mx-auto flex max-w-[1400px] items-center gap-6 px-5 py-4 sm:px-8">
 		<a href={home} class="flex shrink-0 items-center gap-1.5 text-lg font-black tracking-[-.01em] [font-stretch:125%]">
 			<Icon name="water_drop" class="text-amber" />
-			<span class={search ? 'hidden sm:inline' : undefined}>Winter Water Watch</span>
+			<span class={search ? 'hidden sm:inline' : undefined}>Frostline</span>
 		</a>
 		<nav class="ml-auto hidden gap-6 text-[15px] md:flex">
 			{#each NAV as n (n.label)}
@@ -78,6 +78,6 @@
 	<footer class="mt-28 mb-10 border-t border-[#222] pt-6 text-center text-sm text-dim">
 		<p>Public water systems only. Private wells are not covered.</p>
 		<p>Data from MassDEP and MassGIS.</p>
-		<p class="mt-3 text-[#6d6556]">Winter Water Watch, Hackachusetts 2026, UMass Amherst</p>
+		<p class="mt-3 text-[#6d6556]">Frostline, Hackachusetts 2026, UMass Amherst</p>
 	</footer>
 </div>

@@ -72,7 +72,7 @@
 </script>
 
 <svelte:head>
-	<title>Winter Water Watch</title>
+	<title>Frostline</title>
 	<meta
 		name="description"
 		content="Road salt is pushing sodium up in Massachusetts drinking water wells. Check your town."

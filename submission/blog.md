@@ -1,10 +1,10 @@
-# Building Winter Water Watch in a day
+# Building Frostline in a day
 
 Massachusetts salts its roads hard every winter. The salt doesn't go away when the snow melts. It soaks into the ground, and a lot of towns pull their drinking water from wells in that same ground. I wanted to know one thing: are the wells getting saltier, and is mine one of them?
 
 The state already has the answer. MassDEP publishes every sodium and chloride test from public water systems through the EEA Data Lake API. About 37k sodium and 11.7k chloride results going back decades, as one giant list of rows nobody reads.
 
-So we built Winter Water Watch. It turns those rows into a trend for every public well and puts it on a map.
+So we built Frostline. It turns those rows into a trend for every public well and puts it on a map.
 
 ## What it does
 
