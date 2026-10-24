@@ -35,50 +35,50 @@ Build `pipeline/` as plain Python modules in dependency order: `clean` (shared t
     - Commit: `feat(pipeline): fetch and cache data lake results`
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
 
-- [ ] 4. Implement the Trend_Analyzer
+- [x] 4. Implement the Trend_Analyzer
   - [x] 4.1 Implement `pipeline/trends.py`
     - `Trend`, `Series`, `SodiumSeries`, `WellTrend`, `span_years`, `classify`, `analyze`, `projection`, `watch_flag`, `analyze_wells`
     - Insufficient (fewer than 4 samples or span under 5 years) means slope `None`, watch false; NaN p-value lands on flat
     - Watch only exists on `SodiumSeries`
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10, 3.11_
-  - [-] 4.2 Write trend label and watch flag tests in `pipeline/tests/test_pipeline.py`
+  - [x] 4.2 Write trend label and watch flag tests in `pipeline/tests/test_pipeline.py`
     - Trend label: `2t + 10` yearly over 10 years gives `rising`; values alternating around a constant over 10 years give `flat`; 3 samples give `insufficient` with slope `None`
     - Watch flag: rising sodium series with latest at most 20 and 5-year projection over 20 gives `True`; series with latest already over 20 gives `False`
     - Commit: `feat(pipeline): classify well trends and watch flag`
     - _Requirements: 3.1, 3.4, 3.6, 3.8, 3.9, 7.4_
 
-- [~] 5. Checkpoint
+- [x] 5. Checkpoint
   - In `pipeline/`: `uv run pytest`, `uv run ruff check`, `uv run ty check`. Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 6. Implement the Town_Aggregator
-  - [-] 6.1 Implement `pipeline/towns.py`
+- [x] 6. Implement the Town_Aggregator
+  - [x] 6.1 Implement `pipeline/towns.py`
     - Output TypedDicts (`WellOut` in functional form for the `class` key), `slugify`, `series_out`, `sodium_out`, `well_out`, `summarize`, `worst_wells`, `build_towns`, `write_towns`
     - Well metadata from its most recent Sample; wells in each town file sorted by sodium latest descending, ties on id
     - `ValueError` on slug collision; remove stale `wells/*.json` only inside `wells/`; compact JSON
     - Commit: `feat(pipeline): aggregate towns and write site json`
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7_
 
-- [ ] 7. Implement the Backtester
-  - [-] 7.1 Implement `pipeline/backtest.py`
+- [x] 7. Implement the Backtester
+  - [x] 7.1 Implement `pipeline/backtest.py`
     - `split`, `make_case`, `score`, `run`, `write_backtest`; sodium only
     - Train before 2016-01-01, test on or after 2020-01-01; include iff train has at least 4 samples and span at least 6 years and test is non-empty
     - Rule uses `trends.projection` with `gap = mean test decimal year - last train decimal year`; MAE is a median, rounded to 2 decimals, `None` with no cases
     - _Requirements: 5.8, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9_
-  - [~] 7.2 Write backtest counts test in `pipeline/tests/test_pipeline.py`
+  - [x] 7.2 Write backtest counts test in `pipeline/tests/test_pipeline.py`
     - `run` on 3 hand-made wells: one crosses 20 and is caught, one stays under 20 with no alarm, one excluded for too few training samples
     - Expect `wells_tested == 2`, `crossed == 1`, `caught == 1`, `false_alarms == 0`
     - Commit: `feat(pipeline): backtest the watch rule`
     - _Requirements: 6.2, 6.6, 6.7, 6.8, 6.9, 7.4_
 
-- [ ] 8. Wire the build
-  - [~] 8.1 Implement `pipeline/build.py`
+- [x] 8. Wire the build
+  - [x] 8.1 Implement `pipeline/build.py`
     - `--refresh` flag; paths from `Path(__file__).parent`; Data_Directory is `../site/static/data`
     - Runs fetch, clean, trends, towns, backtest in order; one count line per step including dropped items
     - `FetchError` prints to stderr and exits 1
     - Commit: `feat(pipeline): add build entry point`
     - _Requirements: 1.4, 1.5, 7.1_
 
-- [~] 9. Final checkpoint
+- [x] 9. Final checkpoint
   - In `pipeline/`: `uv run build.py`, then `uv run pytest`, `uv run ruff check`, `uv run ruff format --check`, `uv run ty check`, and from the repo root `git check-ignore pipeline/raw/`. Confirm `[project] dependencies` is exactly httpx and scipy.
   - Manual acceptance on the real output in `site/static/data/`:
     - `towns.json` has entries with slugs `plymouth` and `amherst`
