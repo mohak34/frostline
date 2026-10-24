@@ -2,11 +2,11 @@
 
 ## Tools
 
-We used the Kiro IDE for the data pipeline: specs, steering, and running the task lists. For the frontend we used Kiro Crew with Claude Code as its agent backend (Crew runs Claude Code through the `claude-agent-acp` adapter over ACP, a Preview backend option under Developer Mode), working from the same specs and steering in `.kiro/`.
+Kiro IDE did the core build. One spec-mode session with autopilot on (Claude Opus 5.5 as the model) ran both task lists end to end: 56 sub-executions across the pipeline and site specs, from scaffolding to the accuracy page. Separate Kiro sessions wrote the steering files, explained the project structure back to us as a check, and planned how to merge a teammate's repo.
 
-TODO (confirm): exact split of who did what in Kiro IDE vs Kiro Crew, and whether CLI or Web were used at all. Do not claim either unless they were.
+After Kiro had the site working, we did the visual redesign (town map, time-lapse, page transitions, checker gauges) with Claude Code, feeding it the same `.kiro/` specs and steering so it kept to the data contracts and product rules. Kiro for spec-driven build-out, a second agent for fast visual iteration on top.
 
-The difference we noticed: the IDE was best for working through a spec task by task with us reviewing each step. Crew was better for the frontend, where we iterated on the look a lot and wanted the agent to handle many small UI passes against the same spec.
+We did not use Kiro CLI, Web or Crew on this project.
 
 ## Specs
 
@@ -18,8 +18,6 @@ Two specs, in `.kiro/specs/`:
 The pipeline spec used Kiro's fast-task workflow and the site spec used requirements-first. `tasks.meta.json` in each spec is Kiro's execution history: 43 task runs across 19 tasks for the pipeline, 59 runs across 25 tasks for the site, each tied to a chat session.
 
 What it changed for us: writing the requirements first forced the hard calls early. We had to decide what "rising" means (Kendall tau p < 0.05 with a Theil-Sen slope, at least 4 tests over at least 5 years) before any code, and we had to write a rule for the "watch" flag that we could then backtest. With vibe coding we would have found those questions halfway through the UI. The spec also kept the pipeline and site honest with each other, since both sides were built from the same JSON shapes.
-
-TODO (confirm): the site spec was committed after the first site commits. If it was written in Kiro first and committed later, say so; if it was written after, say that instead.
 
 ## Steering
 
@@ -35,11 +33,11 @@ The one that mattered most was `data.md`. The chloride filter in the API is a su
 
 ## Agent hooks
 
-We did not use hooks. TODO (confirm). Lint, format, type check, and tests were run as explicit checkpoint tasks in the task lists instead.
+We did not use hooks. Lint, format, type check, and tests were run as explicit checkpoint tasks in the task lists instead.
 
 ## MCP
 
-TODO (confirm whether any MCP servers were connected in Kiro). If none: we did not need one, since the only external source is one public API with no auth, and we checked it by hand before writing the design.
+We did not connect MCP servers for this build. We did not need one: the only external source is one public API with no auth, and we checked it by hand before writing the design.
 
 ## Property-based testing
 
@@ -47,4 +45,4 @@ We did not use PBT. `pbtResults` is empty in both specs. The tests are example t
 
 ## Powers
 
-TODO (confirm). If none were used, say so.
+We did not install any powers. The stack (SvelteKit static, a uv Python pipeline) was covered by our steering files.
