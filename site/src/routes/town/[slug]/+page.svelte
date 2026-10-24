@@ -128,7 +128,7 @@
 				</thead>
 				<tbody>
 					{#each data.wells as well, i (well.id)}
-						<WellRow {well} index={i} />
+						<WellRow {well} index={i} openOnView={i === 0} />
 					{/each}
 				</tbody>
 			</table>

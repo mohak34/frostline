@@ -1,14 +1,20 @@
 <!--
 	One Well_Table row plus the detail row that holds its Detail_Chart. Use inside a <tbody>,
 	with index unique per table: it forms the detail row id that aria-controls points at.
+	openOnView opens the chart the first time the row scrolls into view.
 -->
 <script lang="ts">
 	import Chart from '#lib/Chart.svelte';
 	import { STROKE, type Chemical } from '#lib/chart.js';
 	import { mgl, trendLabel } from '#lib/format.js';
+	import { onView } from '#lib/motion.js';
 	import type { Series, Well } from '#lib/types.js';
 
-	let { well, index }: { well: Well; index: number } = $props();
+	let {
+		well,
+		index,
+		openOnView = false
+	}: { well: Well; index: number; openOnView?: boolean } = $props();
 
 	let open = $state(false);
 
@@ -24,7 +30,11 @@
 	bubbles here once, so every activation toggles exactly once.
 -->
 <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_noninteractive_element_interactions -->
-<tr class="cursor-pointer border-b border-line hover:bg-[#0d0a05]" onclick={() => (open = !open)}>
+<tr
+	class="cursor-pointer border-b border-line hover:bg-[#0d0a05]"
+	onclick={() => (open = !open)}
+	{@attach openOnView && onView(() => (open = true))}
+>
 	<td class="py-2 pr-4">
 		<button
 			type="button"
