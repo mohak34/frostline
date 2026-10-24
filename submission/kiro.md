@@ -2,7 +2,7 @@
 
 ## Tools
 
-We used the Kiro IDE for the data pipeline: specs, steering, and running the task lists. For the frontend we used Kiro Crew with Claude Code connected over ACP, working from the same specs and steering in `.kiro/`.
+We used the Kiro IDE for the data pipeline: specs, steering, and running the task lists. For the frontend we used Kiro Crew with Claude Code as its agent backend (Crew runs Claude Code through the `claude-agent-acp` adapter over ACP, a Preview backend option under Developer Mode), working from the same specs and steering in `.kiro/`.
 
 TODO (confirm): exact split of who did what in Kiro IDE vs Kiro Crew, and whether CLI or Web were used at all. Do not claim either unless they were.
 
@@ -15,7 +15,7 @@ Two specs, in `.kiro/specs/`:
 - `salt-data-pipeline`: requirements, design, and a 109-line task list. The design pins down the module chain (fetch, clean, trends, towns, backtest), the JSON shapes the site reads, and facts we checked against the live API first, like `_end` being exclusive and units living in `ResultWithUnit`. Every task points back to the requirement numbers it covers, and each one ends in a commit.
 - `salt-site`: 13 requirements (static build, home chart, town search, town page, well table, chart rules, MassDOT checker, accuracy page, and so on), a design, and a 152-line task list.
 
-`tasks.meta.json` in each spec has Kiro's execution history for every task.
+The pipeline spec used Kiro's fast-task workflow and the site spec used requirements-first. `tasks.meta.json` in each spec is Kiro's execution history: 43 task runs across 19 tasks for the pipeline, 59 runs across 25 tasks for the site, each tied to a chat session.
 
 What it changed for us: writing the requirements first forced the hard calls early. We had to decide what "rising" means (Kendall tau p < 0.05 with a Theil-Sen slope, at least 4 tests over at least 5 years) before any code, and we had to write a rule for the "watch" flag that we could then backtest. With vibe coding we would have found those questions halfway through the UI. The spec also kept the pipeline and site honest with each other, since both sides were built from the same JSON shapes.
 
