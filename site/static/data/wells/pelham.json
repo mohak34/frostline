@@ -1,0 +1,1 @@
+{"town":"PELHAM","wells":[{"id":"1230001|MAIN WELL","name":"MAIN WELL","system":"REBEL CAFE","class":"NC","raw_or_finished":"F","sodium":{"samples":[{"date":"2003-06-17","value":5.8},{"date":"2011-08-18","value":6.41}],"trend":"insufficient","slope":null,"latest":6.41,"watch":false},"chloride":{"samples":[],"trend":"insufficient","slope":null,"latest":null}}]}
