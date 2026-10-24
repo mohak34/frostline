@@ -36,6 +36,27 @@ export const loadMap = (): Promise<MapData> => fetchOnce('data/map.json');
 /** towns.json in the browser, for pages that color the map but do not load every town. */
 export const loadTowns = (): Promise<Town[]> => fetchOnce('data/towns.json');
 
+/**
+ * towns.json plus every map town missing from it, as a town with no public wells, sorted by
+ * name. Every Massachusetts town gets a page and a search answer.
+ */
+export function everyTown(towns: Town[], map: MapData): Town[] {
+	const known = new Set(towns.map((t) => t.slug));
+	const dry: Town[] = map.towns
+		.filter((t) => !known.has(t.s))
+		.map((t) => ({ name: t.n.toUpperCase(), slug: t.s, wells: 0, pct_rising: null, pct_over_20: null }));
+	return [...towns, ...dry].sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+}
+
+/** Bounding box [x, y, w, h] of a map path. map.py writes only absolute M and L commands. */
+export function bbox(d: string): [number, number, number, number] {
+	const n = d.match(/-?\d+(\.\d+)?/g)?.map(Number) ?? [];
+	const xs = n.filter((_, i) => i % 2 === 0);
+	const ys = n.filter((_, i) => i % 2 === 1);
+	const [x0, y0] = [Math.min(...xs), Math.min(...ys)];
+	return [x0, y0, Math.max(...xs) - x0, Math.max(...ys) - y0];
+}
+
 // Dark to light amber. LEGEND is the same ramp as a CSS gradient.
 const AMBER = [
 	[42, 29, 8],

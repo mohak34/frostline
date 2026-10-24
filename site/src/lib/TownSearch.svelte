@@ -12,8 +12,16 @@
 	let {
 		towns,
 		onpick,
-		suggest = []
-	}: { towns: Town[]; onpick: (town: Town) => void; suggest?: string[] } = $props();
+		suggest = [],
+		compact = false
+	}: {
+		towns: Town[];
+		onpick: (town: Town) => void;
+		suggest?: string[];
+		/** Header size: no Check button, quieter border. */
+		compact?: boolean;
+	} = $props();
+	const uid = $props.id();
 
 	let text = $state('');
 	// -1: no active option
@@ -62,17 +70,22 @@
 	}
 </script>
 
-<div class="max-w-[480px]">
+<div class={compact ? 'w-full' : 'max-w-[480px]'}>
 	<div class="relative">
 		<form
-			class="flex border-2 border-amber focus-within:border-hot"
+			class={[
+				'flex',
+				compact
+					? 'border border-line focus-within:border-amber'
+					: 'border-2 border-amber focus-within:border-hot'
+			]}
 			onsubmit={(e) => {
 				e.preventDefault();
 				pick(matches[active] ?? matches[0]);
 			}}
 		>
-			<label class="flex min-w-0 flex-1 items-center gap-2.5 px-3.5">
-				<Icon name="search" class="text-amber" />
+			<label class={['flex min-w-0 flex-1 items-center', compact ? 'gap-2 px-2.5' : 'gap-2.5 px-3.5']}>
+				<Icon name="search" class="text-amber" size={compact ? 18 : 22} />
 				<input
 					type="text"
 					role="combobox"
@@ -81,10 +94,13 @@
 					spellcheck="false"
 					aria-autocomplete="list"
 					aria-expanded={open}
-					aria-controls="town-listbox"
-					aria-activedescendant={open && active >= 0 ? `town-option-${active}` : undefined}
-					placeholder="Your town"
-					class="min-w-0 flex-1 bg-transparent py-3 text-xl font-semibold placeholder:font-medium placeholder:text-[#6d6556] focus:outline-none"
+					aria-controls="{uid}-listbox"
+					aria-activedescendant={open && active >= 0 ? `${uid}-option-${active}` : undefined}
+					placeholder={compact ? 'Find a town' : 'Your town'}
+					class={[
+						'min-w-0 flex-1 bg-transparent placeholder:font-medium placeholder:text-[#6d6556] focus:outline-none',
+						compact ? 'py-1.5 text-[15px]' : 'py-3 text-xl font-semibold'
+					]}
 					bind:value={text}
 					oninput={() => {
 						dismissed = false;
@@ -94,22 +110,27 @@
 					onblur={dismiss}
 				/>
 			</label>
-			<button class="cursor-pointer bg-amber px-5 text-[17px] font-extrabold text-black hover:bg-hot">
-				Check
-			</button>
+			{#if !compact}
+				<button class="cursor-pointer bg-amber px-5 text-[17px] font-extrabold text-black hover:bg-hot">
+					Check
+				</button>
+			{/if}
 		</form>
 		<ul
-			id="town-listbox"
+			id="{uid}-listbox"
 			role="listbox"
 			aria-label="Towns"
 			hidden={!open}
-			class="absolute inset-x-0 top-full z-10 border-2 border-t-0 border-amber bg-black text-sm text-dim"
+			class={[
+				'absolute top-full right-0 z-30 bg-black text-sm text-dim',
+				compact ? 'w-[min(420px,90vw)] border border-line' : 'left-0 border-2 border-t-0 border-amber'
+			]}
 		>
 			{#each matches as town, i (town.slug)}
 				{@const [before, hit, after] = parts(titleCase(town.name))}
 				<!-- svelte-ignore a11y_click_events_have_key_events a11y_interactive_supports_focus -->
 				<li
-					id="town-option-{i}"
+					id="{uid}-option-{i}"
 					role="option"
 					aria-selected={i === active}
 					class={[

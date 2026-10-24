@@ -1,40 +1,70 @@
 <script lang="ts">
 	import './layout.css';
+	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
+	import Icon from '#lib/Icon.svelte';
+	import TownSearch from '#lib/TownSearch.svelte';
 	import favicon from '#lib/assets/favicon.svg';
+	import { everyTown, loadMap, loadTowns } from '#lib/map.js';
+	import type { Town } from '#lib/types.js';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
 
 	const home = resolve('/');
 	const NAV = [
-		{ href: `${home}#spread`, label: 'Spread' },
 		{ href: `${home}#how`, label: 'How it works' },
-		{ href: resolve('/accuracy'), label: 'Accuracy' },
-		{ href: `${home}#kiro`, label: 'Built with Kiro' }
+		{ href: resolve('/accuracy'), label: 'Accuracy' }
 	];
+	// The home page has its own big search, so the header one shows everywhere else.
+	const search = $derived(page.route.id !== '/');
+
+	let towns = $state.raw<Town[]>([]);
+	$effect(() => {
+		if (search && towns.length === 0)
+			Promise.all([loadTowns(), loadMap()]).then(([ts, m]) => (towns = everyTown(ts, m)));
+	});
 </script>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="mx-auto max-w-[1400px] px-5 sm:px-8">
-	<header class="flex items-center justify-between py-5.5">
-		<a href={home} class="text-lg font-black tracking-[-.01em] [font-stretch:125%]">Winter Water Watch</a>
-		<nav class="hidden gap-6.5 text-[15px] lg:flex">
+<header class="sticky top-0 z-20 bg-black">
+	<div class="mx-auto flex max-w-[1400px] items-center gap-6 px-5 py-4 sm:px-8">
+		<a href={home} class="flex shrink-0 items-center gap-1.5 text-lg font-black tracking-[-.01em] [font-stretch:125%]">
+			<Icon name="water_drop" class="text-amber" />
+			<span class={search ? 'hidden sm:inline' : undefined}>Winter Water Watch</span>
+		</a>
+		<nav class="ml-auto hidden gap-6 text-[15px] md:flex">
 			{#each NAV as n (n.label)}
-				<a href={n.href} class="text-dim hover:text-white">{n.label}</a>
+				<a
+					href={n.href}
+					aria-current={page.url.pathname === n.href ? 'page' : undefined}
+					class="text-dim hover:text-white aria-[current=page]:text-white">{n.label}</a
+				>
 			{/each}
 		</nav>
-	</header>
-	<main>
+		{#if search}
+			<div class="ml-auto w-full max-w-[280px] md:ml-0">
+				<TownSearch
+					{towns}
+					compact
+					onpick={(t) => goto(resolve('/town/[slug]', { slug: t.slug }))}
+				/>
+			</div>
+		{/if}
+	</div>
+</header>
+
+<div class="mx-auto max-w-[1400px] px-5 sm:px-8">
+	<main class="pt-4">
 		{@render children()}
 	</main>
-	<footer
-		class="mt-28 mb-10 flex flex-wrap justify-between gap-4 border-t border-[#222] pt-4.5 text-sm text-dim"
-	>
-		<span>Winter Water Watch, Hackachusetts 2026, UMass Amherst</span>
-		<span>Public water systems only. Private wells are not covered. Data: MassDEP, MassGIS.</span>
+	<footer class="mt-28 mb-10 border-t border-[#222] pt-6 text-center text-sm text-dim">
+		<p>Public water systems only. Private wells are not covered.</p>
+		<p>Data from MassDEP and MassGIS.</p>
+		<p class="mt-3 text-[#6d6556]">Winter Water Watch, Hackachusetts 2026, UMass Amherst</p>
 	</footer>
 </div>

@@ -79,3 +79,15 @@ html {
 	clip-path: inset(0);
 	transition: clip-path 1.2s cubic-bezier(0.3, 0, 0.2, 1) calc(var(--base, 0s) + var(--delay, 0s));
 }
+
+/* Number inputs without the browser's spin buttons. */
+@layer base {
+	input[type='number'] {
+		appearance: textfield;
+	}
+	input[type='number']::-webkit-inner-spin-button,
+	input[type='number']::-webkit-outer-spin-button {
+		appearance: none;
+		margin: 0;
+	}
+}

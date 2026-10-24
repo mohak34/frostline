@@ -19,7 +19,7 @@
 		<h1 class="display text-[clamp(44px,7vw,110px)]">{message}</h1>
 		<p class="mt-5 max-w-[30em] text-[19px] text-soft">
 			{town
-				? 'Only towns with public drinking water wells have a page. Search for your town on the home page.'
+				? 'No Massachusetts town has that name. Search for your town at the top of the page.'
 				: 'Nothing lives at this address. The map and the town search are on the home page.'}
 		</p>
 		<a

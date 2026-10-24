@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { everyTown, type MapData } from '#lib/map.js';
 import type { Backtest, Town, TownFile, Well } from '#lib/types.js';
 
 // Relative to process.cwd(), which is site/ for build, check, and test. import.meta.url
@@ -26,6 +27,11 @@ export async function readJson(path: string): Promise<unknown> {
 // Town_List and Town_File shapes are trusted to the pipeline schema (pipeline/towns.py).
 export async function readTowns(): Promise<Town[]> {
 	return (await readJson(join(DATA, 'towns.json'))) as Town[];
+}
+
+/** towns.json plus the map towns with no public wells. See everyTown. */
+export async function readEveryTown(): Promise<Town[]> {
+	return everyTown(await readTowns(), (await readJson(join(DATA, 'map.json'))) as MapData);
 }
 
 export async function readTownFile(slug: string): Promise<TownFile> {

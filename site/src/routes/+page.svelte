@@ -1,10 +1,10 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import Chart from '#lib/Chart.svelte';
 	import CountUp from '#lib/CountUp.svelte';
 	import Icon from '#lib/Icon.svelte';
 	import TimeLapse from '#lib/TimeLapse.svelte';
-	import TownMap from '#lib/TownMap.svelte';
 	import TownSearch from '#lib/TownSearch.svelte';
 	import Cross from '#lib/art/Cross.svelte';
 	import Rows from '#lib/art/Rows.svelte';
@@ -12,9 +12,9 @@
 	import Step from '#lib/art/Step.svelte';
 	import { caughtShare } from '#lib/accuracy.js';
 	import { count, mgl, titleCase } from '#lib/format.js';
-	import { LEGEND, NO_DATA, NO_WELLS, ramp } from '#lib/map.js';
 	import { reveal } from '#lib/motion.js';
 	import type { Town } from '#lib/types.js';
+	import { prefersReducedMotion } from 'svelte/motion';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -25,24 +25,14 @@
 	const b = $derived(data.backtest);
 	const bySlug = $derived(new Map(data.towns.map((t) => [t.slug, t])));
 
-	// Hero map measure. Rising tops out near 70%, so its ramp ends there.
-	const MEASURES = [
-		{ key: 'pct_rising', label: 'Wells rising', max: 70 },
-		{ key: 'pct_over_20', label: 'Wells over 20 mg/L', max: 100 }
-	] as const;
-	let measure = $state.raw<(typeof MEASURES)[number]>(MEASURES[0]);
-	let picked = $state<Town | null>(null);
-	let hovered = $state<Town | null>(null);
-	const shown = $derived(hovered ?? picked ?? bySlug.get('plymouth') ?? null);
-
-	function fill(slug: string): string {
-		const t = bySlug.get(slug);
-		if (!t || t.wells === 0) return NO_WELLS;
-		const v = t[measure.key];
-		return v === null ? NO_DATA : ramp(v / measure.max);
+	// A pick zooms the map onto the town, then opens its page.
+	let zoom = $state<string | null>(null);
+	function open(t: Town): void {
+		const go = () => goto(resolve('/town/[slug]', { slug: t.slug }));
+		if (prefersReducedMotion.current) return void go();
+		zoom = t.slug;
+		setTimeout(go, 1300);
 	}
-
-	const share = (x: number | null): string => (x === null ? 'n/a' : `${Math.round(x)}%`);
 
 	const KICKERS = [
 		{
@@ -79,20 +69,6 @@
 			text: 'Flag wells under 20 mg/L that the trend carries past 20 within five years.'
 		}
 	] as const;
-	const KIRO = [
-		[
-			'.kiro/steering/',
-			'Product, tech and data rules Kiro read before every task, such as which MassDEP fields to trust.'
-		],
-		[
-			'.kiro/specs/salt-data-pipeline/',
-			'Requirements, design and a task list for the Python pipeline, built and tested task by task.'
-		],
-		[
-			'.kiro/specs/salt-site/',
-			'The spec for this site: static SvelteKit, every town page prerendered, no server to run.'
-		]
-	] as const;
 </script>
 
 <svelte:head>
@@ -114,32 +90,8 @@
 			Road salt seeps into the wells Massachusetts towns drink from. We read {span} years of state lab results to show which ones are rising, town by town.
 		</p>
 		<div class="mt-7">
-			<TownSearch towns={data.towns} onpick={(t) => (picked = t)} suggest={['amherst', 'plymouth', 'barnstable']} />
+			<TownSearch towns={data.towns} onpick={open} suggest={['amherst', 'plymouth', 'barnstable']} />
 		</div>
-		{#if picked}
-			<div class="mt-5 max-w-[480px] border-l-3 border-amber pl-4" aria-live="polite">
-				<h2 class="title text-[26px]">{titleCase(picked.name)}</h2>
-				{#if picked.wells === 0}
-					<p class="mt-1 text-soft">
-						No public wells. Its water comes from a reservoir or a regional system, which this site
-						does not cover.
-					</p>
-				{:else}
-					<p class="mt-1 text-soft tabular-nums">
-						<b class="text-amber">{share(picked.pct_rising)}</b> of its {count(picked.wells)} public
-						{picked.wells === 1 ? 'well is' : 'wells are'} getting saltier.
-						<b class="text-amber">{share(picked.pct_over_20)}</b> were over 20 mg/L at their last test.
-					</p>
-					<a
-						href={resolve('/town/[slug]', { slug: picked.slug })}
-						class="mt-2 inline-flex items-center gap-0.5 border-b border-amber text-[15px] font-bold"
-					>
-						See every well in {titleCase(picked.name)}
-						<Icon name="chevron_right" size={18} />
-					</a>
-				{/if}
-			</div>
-		{/if}
 		<div class="mt-8 flex gap-6 sm:gap-9">
 			<div>
 				<b class="figure block text-[40px] sm:text-[52px]"><CountUp value={data.statewide.wells} /></b>
@@ -159,47 +111,16 @@
 	</div>
 
 	<div>
-		<div class="mb-2.5 flex gap-1" role="group" aria-label="Map shows">
-			{#each MEASURES as m (m.key)}
-				<button
-					type="button"
-					aria-pressed={measure === m}
-					class={[
-						'cursor-pointer border px-3 py-1.5 text-sm',
-						measure === m ? 'border-amber text-white' : 'border-line text-dim'
-					]}
-					onclick={() => (measure = m)}>{m.label}</button
-				>
-			{/each}
-		</div>
-		<TownMap
-			label="Map of Massachusetts towns by {measure.label.toLowerCase()}"
-			{fill}
-			sweep
-			selected={picked?.slug}
-			onhover={(s) => (hovered = s === null ? null : (bySlug.get(s) ?? null))}
+		<TimeLapse
+			from={data.lapse.from}
+			years={data.lapse.years}
+			towns={bySlug}
+			{zoom}
 			onpick={(s) => {
 				const t = bySlug.get(s);
-				if (t) picked = t;
+				if (t) open(t);
 			}}
 		/>
-		<div class="mt-3.5 flex min-h-[50px] flex-wrap items-baseline gap-x-5 gap-y-2">
-			{#if shown}
-				<h3 class="title text-2xl">{titleCase(shown.name)}</h3>
-				<p class="text-sm text-soft tabular-nums">
-					{#if shown.wells === 0}
-						No public wells. Water comes from a reservoir or regional system.
-					{:else}
-						<b class="text-amber">{share(shown.pct_rising)}</b> of {count(shown.wells)}
-						{shown.wells === 1 ? 'well' : 'wells'} rising<br />
-						<b class="text-amber">{share(shown.pct_over_20)}</b> over 20 mg/L at last test
-					{/if}
-				</p>
-			{/if}
-			<div class="flex items-center gap-2 text-xs text-dim lg:ml-auto">
-				<span>low</span><i class="block h-2 w-[150px]" style:background={LEGEND}></i><span>high</span>
-			</div>
-		</div>
 	</div>
 </div>
 
@@ -233,10 +154,6 @@
 	<div {@attach reveal}>
 		<Chart variant="home" series={[{ chemical: 'sodium', samples }]} />
 	</div>
-</section>
-
-<section id="spread" class="scroll-mt-6 pt-24">
-	<TimeLapse from={data.lapse.from} years={data.lapse.years} />
 </section>
 
 <section id="how" class="scroll-mt-6 pt-24">
@@ -292,16 +209,4 @@
 			</dd>
 		{/if}
 	</dl>
-</section>
-
-<section id="kiro" class="scroll-mt-6 pt-24">
-	<h2 class="display mb-7 text-[clamp(32px,3.6vw,52px)] leading-none">Built spec first in Kiro</h2>
-	<div class="grid gap-7 md:grid-cols-3">
-		{#each KIRO as [path, text] (path)}
-			<div>
-				<code class="font-sans text-[15px] font-bold text-hot">{path}</code>
-				<p class="mt-1.5 text-[15px] text-[#cfcfcf]">{text}</p>
-			</div>
-		{/each}
-	</div>
 </section>
