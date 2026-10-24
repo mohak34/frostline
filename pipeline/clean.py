@@ -54,16 +54,20 @@ def parse_date(raw: str) -> date | None:
         return None
 
 
-def parse_chemical(raw: str) -> Chemical:
+def parse_chemical(raw: str) -> Chemical | None:
+    """Exact match only. The API filter is a substring match, so CHLORIDE also returns e.g. VINYL CHLORIDE."""
     match raw:
         case "SODIUM" | "CHLORIDE":
             return raw
         case _:
-            raise ValueError(f"unexpected ChemicalName {raw!r}")
+            return None
 
 
 def to_sample(item: RawItem) -> Sample | None:
     """Returns None for items that should be dropped. Missing keys raise KeyError."""
+    chemical = parse_chemical(item["ChemicalName"])
+    if chemical is None:
+        return None
     value = parse_value(item)
     collected = parse_date(item["CollectedDate"])
     if value is None or collected is None:
@@ -71,7 +75,7 @@ def to_sample(item: RawItem) -> Sample | None:
     return Sample(
         well=f"{item['PWSId']}|{item['LocationName']}",
         location_name=item["LocationName"],
-        chemical=parse_chemical(item["ChemicalName"]),
+        chemical=chemical,
         date=collected,
         value=value,
         town=item["Town"],

@@ -9,13 +9,14 @@ def raw_item(
     result: str = "24.26",
     unit: str = "24.26 MG/L",
     collected: str = "2021-06-15T00:00:00",
+    chemical: str = "SODIUM",
 ) -> RawItem:
     return RawItem(
         PWSId="4239000",
         PWSName="PLYMOUTH WATER DIVISION",
         Town="PLYMOUTH",
         Class="COM",
-        ChemicalName="SODIUM",
+        ChemicalName=chemical,
         CollectedDate=collected,
         RaworFinished="R",
         Result=result,
@@ -38,6 +39,12 @@ def test_to_sample_drops_non_numeric_result() -> None:
 
 def test_to_sample_drops_unparseable_date() -> None:
     assert to_sample(raw_item(collected="not-a-date")) is None
+
+
+def test_to_sample_drops_other_chlorides() -> None:
+    assert to_sample(raw_item(chemical="VINYL CHLORIDE")) is None
+    assert to_sample(raw_item(chemical="CARBON TETRACHLORIDE")) is None
+    assert to_sample(raw_item(chemical="CHLORIDE")) is not None
 
 
 def samples(points: list[tuple[date, float]], name: str = "WELL #1") -> list[Sample]:
