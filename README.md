@@ -2,7 +2,7 @@
 
 Tracking road salt in Massachusetts drinking water wells, building on UMass Amherst research that shows salt lingers in water supplies for decades.
 
-Hackachusetts 2026, Climate Tech track. Live at [frostline.mohak.dev](https://frostline.mohak.dev). Its coastal companion, Harbor Pulse, is at [hackachusetts2026.streamlit.app](https://hackachusetts2026.streamlit.app) and linked from the site header.
+Hackachusetts 2026, Climate Tech track. Built with Kiro: specs and steering are in [`.kiro/`](.kiro), and the write-up is in [`submission/kiro.md`](submission/kiro.md).
 
 ## Problem
 
